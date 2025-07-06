@@ -45,6 +45,126 @@ AgriMitra is an intelligent agricultural assistant designed to help farmers with
 - Farming communities seeking accessible AI assistance
 - Anyone involved in crop management and agricultural decision-making
 
+## 🏗️ Architecture
+
+### System Overview
+
+AgriMitra follows a clean separation between frontend and backend, with the frontend handling user interactions and the backend managing all AI processing through Azure services.
+
+```mermaid
+graph TB
+    %% User Interface Layer
+    subgraph "Frontend (React + TypeScript)"
+        UI[User Interface]
+        Chat[Chat Interface]
+        Voice[Voice Interface]
+        Upload[Image Upload]
+        Side[Side Panel]
+    end
+    
+    %% API Gateway
+    subgraph "Backend (FastAPI + Python)"
+        API[FastAPI Router]
+        ChatAPI[Chat API]
+        SpeechAPI[Speech API]
+        MarketAPI[Market API]
+        SchemesAPI[Schemes API]
+    end
+    
+    %% Core Services
+    subgraph "Core Services"
+        LangChain[LangChain Service]
+        Config[Configuration]
+    end
+    
+    %% Azure AI Services
+    subgraph "Azure AI Platform"
+        GPT4[Azure OpenAI GPT-4o]
+        STT[Speech-to-Text]
+        TTS[Text-to-Speech]
+    end
+    
+    %% Data Sources
+    subgraph "Data Sources"
+        Market[Market Data API]
+        Schemes[Government Schemes DB]
+        Knowledge[Agricultural Knowledge]
+    end
+    
+    %% User Interactions
+    User([👨‍🌾 Farmer]) --> UI
+    
+    %% Frontend Components
+    UI --> Chat
+    UI --> Voice
+    UI --> Upload
+    UI --> Side
+    
+    %% API Calls
+    Chat -->|HTTP/REST| ChatAPI
+    Voice -->|Audio Data| SpeechAPI
+    Upload -->|Image Data| ChatAPI
+    Side -->|Data Requests| MarketAPI
+    Side -->|Scheme Queries| SchemesAPI
+    
+    %% Backend Processing
+    ChatAPI --> LangChain
+    SpeechAPI --> STT
+    SpeechAPI --> TTS
+    MarketAPI --> Market
+    SchemesAPI --> Schemes
+    
+    %% AI Processing
+    LangChain --> GPT4
+    LangChain --> Knowledge
+    
+    %% Response Flow
+    GPT4 -->|AI Response| LangChain
+    LangChain -->|Processed Response| ChatAPI
+    STT -->|Transcribed Text| SpeechAPI
+    TTS -->|Audio Response| SpeechAPI
+    Market -->|Price Data| MarketAPI
+    Schemes -->|Scheme Info| SchemesAPI
+    
+    %% Configuration
+    Config --> LangChain
+    Config --> SpeechAPI
+    
+    %% Styling
+    classDef frontend fill:#e1f5fe
+    classDef backend fill:#f3e5f5
+    classDef azure fill:#fff3e0
+    classDef data fill:#e8f5e8
+    
+    class UI,Chat,Voice,Upload,Side frontend
+    class API,ChatAPI,SpeechAPI,MarketAPI,SchemesAPI,LangChain,Config backend
+    class GPT4,STT,TTS azure
+    class Market,Schemes,Knowledge data
+```
+
+### Data Flow
+
+1. **Voice Input Flow**
+   - User speaks → Voice Interface captures audio → Speech API converts to text → Chat API processes with GPT-4o → Response converted to speech
+   
+2. **Text Chat Flow**
+   - User types message → Chat Interface → Chat API → LangChain Service → GPT-4o → Structured response
+   
+3. **Image Analysis Flow**
+   - User uploads image → Image Upload → Chat API → LangChain Service → GPT-4o multimodal → Disease diagnosis + recommendations
+   
+4. **Market & Schemes Flow**
+   - User requests data → Side Panel → Respective APIs → Mock/Real data sources → Formatted response
+
+### Key Architectural Decisions
+
+- **Frontend-Backend Separation**: Clean API boundaries with no AI logic in frontend
+- **Azure-First AI**: All AI processing through Azure OpenAI and Speech services
+- **LangChain Integration**: Advanced prompt engineering and conversation management
+- **Multimodal Capabilities**: Single GPT-4o model handles both text and image analysis
+- **Mock Data Ready**: Easy replacement of mock data with live APIs
+- **Scalable Design**: FastAPI async architecture for high performance
+
 ## 🔧 Backend Architecture
 
 ### Core Services & Technologies
