@@ -278,12 +278,3 @@ AZURE_SPEECH_REGION=your_azure_region
 4. **Configure environment**: Add your Azure API keys
 5. **Start services**: Run both backend (FastAPI) and frontend (Vite)
 6. **Test voice features**: Ensure microphone permissions are granted
-
-## � Contact
-
-For questions, suggestions, or collaboration opportunities:
-- **Email**: ashishsalaskar1@gmail.com
-
-## �📝 License
-
-This project is built for agricultural community support and development.
