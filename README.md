@@ -130,16 +130,18 @@ graph TB
     Config --> LangChain
     Config --> SpeechAPI
     
-    %% Styling
-    classDef frontend fill:#e1f5fe
-    classDef backend fill:#f3e5f5
-    classDef azure fill:#fff3e0
-    classDef data fill:#e8f5e8
+    %% Styling - Light theme with dark text
+    classDef frontend fill:#f8f9fa,stroke:#343a40,stroke-width:2px,color:#212529
+    classDef backend fill:#ffffff,stroke:#6c757d,stroke-width:2px,color:#212529
+    classDef azure fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#0d47a1
+    classDef data fill:#f1f8e9,stroke:#388e3c,stroke-width:2px,color:#1b5e20
+    classDef user fill:#fff3e0,stroke:#f57c00,stroke-width:3px,color:#e65100
     
     class UI,Chat,Voice,Upload,Side frontend
     class API,ChatAPI,SpeechAPI,MarketAPI,SchemesAPI,LangChain,Config backend
     class GPT4,STT,TTS azure
     class Market,Schemes,Knowledge data
+    class User user
 ```
 
 ### Data Flow
